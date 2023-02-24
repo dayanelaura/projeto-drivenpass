@@ -27,14 +27,10 @@ export async function credentialValidation(req: Request, res: Response, next: Ne
 		return res.sendStatus(401);
 	}
 	
-	console.log(credential, 'ola');
     const cryptr = new Cryptr(password);
-
-    delete credential.password;
-	console.log(credential, 'oi');
-    const credentialObject = { ...credential, password: cryptr.encrypt('password') };
-    console.log("credential depois", credentialObject);
-
+    const credentialObject = { ...credential, password: cryptr.encrypt(credential.password) };
 	res.locals.credential = credentialObject;
+	res.locals.cryptr = cryptr;
+
 	next();
 }
