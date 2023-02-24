@@ -1,9 +1,9 @@
 import bcrypt from "bcrypt";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { getUserByEmail } from "../repositories/userRepository.js";
 import { userSchema } from "../schemas/userSchema.js";
 
-export async function signInValidation(req: Request, res: Response, next) {
+export async function signInValidation(req: Request, res: Response, next: NextFunction) {
 	const reqUser = req.body;
 	const { email, password } = reqUser;
 

@@ -1,12 +1,12 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
+import { User } from "../protocols/user.js";
 import { getUserByEmail } from "../repositories/userRepository.js";
 import { userSchema } from "../schemas/userSchema.js";
 
-export async function signUpValidation(req: Request, res: Response, next) {
-	const user = req.body;
+export async function signUpValidation(req: Request, res: Response, next: NextFunction) {
+	const user = req.body as User;
 
 	const { error } = userSchema.validate(user, { abortEarly: false });
-
 	if (error) {
 		const errors = error.details.map((err) => err.message);
 		return res.status(422).send(errors);
@@ -17,8 +17,6 @@ export async function signUpValidation(req: Request, res: Response, next) {
 		return res.status(409).send("E-mail já cadastrado");
 	}
 
-	delete user.confirmPassword;
 	res.locals.user = user;
-
 	next();
 }

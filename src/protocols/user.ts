@@ -5,3 +5,9 @@ export type UserEntity = {
 }
 
 export type User = Omit<UserEntity, "id">
+
+export type Decoded = {
+	id: string,
+	iat: number,
+	exp: number,
+};
