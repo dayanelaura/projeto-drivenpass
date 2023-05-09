@@ -4,10 +4,11 @@ import { credentialSchema } from "../schemas/credentialSchema.js";
 import { getUserById } from "../repositories/userRepository.js";
 import { getCredentialsByUserId } from "../repositories/credentialRepository.js";
 import { Credential } from "../protocols/credential.js";
+import { handlePassword } from "./handlePasswordMiddleware.js";
 
 export async function credentialValidation(req: Request, res: Response, next: NextFunction) {
-	const credential = req.body;
-	const { user, password, title } = credential as Credential;
+	const credential: Credential = req.body;
+	const { user, password, title } = credential;
 
 	const { error } = credentialSchema.validate(credential, { abortEarly: false });
    	if(error){
@@ -27,10 +28,7 @@ export async function credentialValidation(req: Request, res: Response, next: Ne
 		return res.sendStatus(401);
 	}
 	
-    const cryptr = new Cryptr(password);
-    const credentialObject = { ...credential, password: cryptr.encrypt(credential.password) };
-	res.locals.credential = credentialObject;
-	res.locals.cryptr = cryptr;
-
+    //handlePassword(password, credential);
+	res.locals.credential = credential;
 	next();
 }

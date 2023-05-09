@@ -14,16 +14,12 @@ export async function postCredential(req: Request, res: Response) {
 
 export async function getCredentials(req: Request, res: Response) {
 	const user = res.locals.user;
-	//const cryptr = res.locals.cryptr;
 
 	try {
-		const credentials = await getCredentialsByUserId(user);
-		
-		/* let decryptedPasswords = [];
+		const credentials = await getCredentialsByUserId(1);
+		let decryptedPasswords = [];
 		credentials.filter(value => decryptedPasswords = [...decryptedPasswords, value.password]);
-		//const decryptedPasswords  = encryptedPasswords.forEach(password => cryptr.decrypt(password));
 
-		console.log(decryptedPasswords);  */
 		res.status(200).send(credentials);
 	} catch (error) {
 		res.sendStatus(500);

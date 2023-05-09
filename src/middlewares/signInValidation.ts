@@ -2,9 +2,10 @@ import bcrypt from "bcrypt";
 import { NextFunction, Request, Response } from "express";
 import { getUserByEmail } from "../repositories/userRepository.js";
 import { userSchema } from "../schemas/userSchema.js";
+import { User } from "../protocols/user.js";
 
 export async function signInValidation(req: Request, res: Response, next: NextFunction) {
-	const reqUser = req.body;
+	const reqUser: User = req.body;
 	const { email, password } = reqUser;
 
 	const { error } = userSchema.validate(reqUser, { abortEarly: false });
